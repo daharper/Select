@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Answers 1</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h3 {
+            color: palegoldenrod;
+        }
+
+        pre {
+            background-color: black;
+            color: palegreen;
+            padding: 10px;
+            border: 1px solid palegreen;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        p {
+            color: lightskyblue;
+        }
+
+        .note {
+            color: mediumpurple;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Querying the database – Part 1 Answers</h1>
+
+    <h3>Exercise 1</h3>
+    <p>Select all category names with their descriptions from the Categories table.</p>
+
+<pre>
+SELECT CategoryName, Description FROM Categories;
+</pre>
+
+    <h3>Exercise 2</h3>
+    <p>Select the contact name, customer id, and company name of all Customers in London</p>
+
+<pre>
+SELECT ContactName, CustomerID, CompanyName
+FROM Customers
+WHERE City = 'London';
+</pre>
+
+    <h3>Exercise 3</h3>
+    <p>Marketing managers and sales representatives have asked you to select all available columns in the Suppliers tables that have a FAX number.</p>
+
+<pre>
+SELECT *
+FROM Suppliers
+WHERE Fax IS NOT NULL;
+</pre>
+
+    <h3>Exercise 4</h3>
+    <p>Select a list of customers id’s from the Orders table with required dates between Jan 1, 1995 and Jan 1, 1996 and with freight under 100 units.</p>
+    
+<p class="note">In SQL Server dates are different:</p>
+
+<pre>
+SELECT CustomerID
+FROM Orders
+WHERE RequiredDate BETWEEN '1995-01-01' and '1996-01-01' AND Freight < 100;
+</pre>
+
+<p class="note">In MS Access:</p>
+
+<pre>
+SELECT CustomerID
+FROM Orders
+WHERE RequiredDate BETWEEN #1995-01-01# and #1996-01-01# AND Freight < 100;
+</pre>
+
+<h3>Exercise 5</h3>
+<p>Select a list of company names and contact names of all the Owners from the Customer table from Mexico, Sweden and Germany.</p>
+
+<pre>
+SELECT CompanyName, ContactName
+FROM Customers
+WHERE Country IN ('Mexico', 'Sweden', 'Germany') AND ContactTitle = 'Owner';
+</pre>
+
+    <h3>Exercise 6</h3>
+    <p>Count the number of discontinued products in the Products table.</p>
+
+    <p class="note">In SQL Server:</p>
+
+<pre>
+SELECT COUNT(*)
+FROM Products
+WHERE Discontinued = 1;
+</pre>
+
+    <p class="note">And in MS Access:</p>
+
+<pre>
+SELECT COUNT(*)
+FROM Products
+WHERE Discontinued = True;
+</pre>
+
+    <h3>Exercise 7</h3>
+    <p>Select a list of category names and descriptions of all categories beginning with 'Co' from the Categories table.</p>
+
+<pre>
+SELECT [CategoryName], [Description]
+FROM [Categories]
+WHERE [CategoryName] LIKE 'Co%';
+</pre>
+
+    <h3>Exercise 8</h3>
+    <p>Select all the company names, city, country and postal code from the Suppliers table with the word 'rue' in their address. The list should be ordered alphabetically by company name.</p>
+
+<pre>
+SELECT CompanyName, City, Country, PostalCode
+FROM Suppliers
+WHERE Address LIKE '%rue%'
+ORDER BY CompanyName;
+</pre>
+
+    <h3>Exercise 9</h3>
+    <p>Select the product id and the total quantities ordered for each product id in the Order Details table.</p>
+
+<pre>
+SELECT [ProductID] AS [Product ID], SUM([Quantity]) AS [Total Quantity]
+FROM [Order Details]
+GROUP BY [ProductID]
+ORDER BY SUM([Quantity]);
+</pre>
+
+    <h3>Exercise 10</h3>
+    <p>Select the customer name and customer address of all customers with orders that shipped using Speedy Express.</p>
+
+    <p>1st way</p>
+<pre>
+SELECT ContactName, Address
+FROM Customers
+WHERE CustomerID IN
+  (SELECT DISTINCT CustomerID
+   FROM Orders
+   WHERE ShipVia IN
+    (SELECT ShipperID
+     FROM Shippers
+     WHERE CompanyName = 'Speedy Express'))
+</pre>
+
+    <p>2nd way</p>
+<pre>
+SELECT DISTINCT Customers.ContactName, Customers.Address
+FROM (Customers
+INNER JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID)
+INNER JOIN Shippers
+ON Orders.ShipVia = Shippers.ShipperID
+WHERE Shippers.CompanyName = 'Speedy Express'
+</pre>
+
+    <h3>Exercise 11</h3>
+    <p>Select a list of Suppliers containing company name, contact name, contact title and region description.</p>
+
+<pre>
+SELECT CompanyName, ContactName, ContactTitle, Region
+FROM Suppliers
+WHERE ContactName IS NOT NULL AND ContactTitle IS NOT NULL AND Region IS NOT NULL
+</pre>
+
+    <h3>Exercise 12</h3>
+    <p>Select all product names from the Products table that are condiments.</p>
+
+    <p>1st way</p>
+
+<pre>
+SELECT ProductName
+FROM Products
+WHERE CategoryID IN
+  (SELECT CategoryID
+   FROM Categories
+   WHERE CategoryName = 'Condiments');
+</pre>
+
+    <p>2nd way</p>
+<pre>
+SELECT Products.ProductName
+FROM Products
+INNER JOIN Categories
+ON Products.CategoryID = Categories.CategoryID
+WHERE Categories.CategoryName = 'Condiments'
+</pre>
+
+    <h3>Exercise 13</h3>
+    <p>Select a list of customer names who have no orders in the Orders table.</p>
+
+<pre>
+SELECT ContactName
+FROM Customers
+WHERE CustomerID NOT IN
+  (SELECT DISTINCT CustomerID
+   FROM Orders);
+</pre>
+
+    <h3>Exercise 14</h3>
+
+    <p>Select a list of products from the Products table along with the total units in stock for each product.</p>
+    <p>Give the computed column a name using the alias, 'TotalUnits'. Include only products with TotalUnits greater than 100.</p>
+
+<pre>
+SELECT ProductName, UnitsInStock AS TotalUnits
+FROM Products
+WHERE UnitsInStock > 100;
+</pre>
+
+</body>
+</html>

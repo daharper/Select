@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Answers 1</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h3 {
+            color: palegoldenrod;
+        }
+
+        pre {
+            background-color: black;
+            color: palegreen;
+            padding: 10px;
+            border: 1px solid palegreen;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        p {
+            color: lightskyblue;
+        }
+
+        .note {
+           color: mediumpurple;           
+        }
+
+    </style>
+</head>
+
+<h1>Querying the database – Part 2 Answers</h1>
+
+<h3>Exercise 1</h3>
+<p>Select the name, address, city, and region of employees.</p>
+
+<p class="note">We can do this in SQL Server:</p>
+
+<pre>
+SELECT FirstName, Address, City, ISNULL(Region, '-') as [Region]
+FROM Employees
+</pre>
+
+<p class="note">But in MS Access the ISNULL function only takes one argument, so we can use IIF:</p>
+<pre>
+SELECT FirstName, Address, City, IIF(Region, Region, '-') as [Region] FROM Employees;
+</pre>
+
+<h3>Exercise 2</h3>
+<p>Select the name, address, city, and region of employees living in USA</p>
+
+<pre>
+SELECT FirstName, [Address], City, IIF(Region, Region, ' - ') AS [Region]
+FROM Employees
+WHERE Country = 'USA';
+</pre>
+
+<h3>Exercise 3</h3>
+<p>Select the name, address, city, and region of employees older than 50 years old.</p>
+
+<p class="note">Normally we use < '1969-06-06' but in MS Access we use < #1969-06-06#</p>
+
+<p>1st way</p>
+<pre>
+SELECT FirstName, [Address], City, IIF(Region, Region, '-') AS [Region] 
+FROM Employees 
+WHERE BirthDate < #1969-06-06#;
+</pre>
+
+<p>2nd way</p>
+
+<p class="note">In SQL Server we can do this:</p>
+
+<pre>
+SELECT LastName, FirstName, [Address], City, ISNULL(Region, ' - ') AS [Region]
+FROM Employees
+WHERE DATEDIFF(year, BirthDate , GETDATE()) > 50;
+</pre>
+
+<p class="note">But in MS Access we have to do this:</p>
+
+<pre>
+SELECT LastName, FirstName, [Address], City, IIF(Region, Region, ' - ') AS [Region]
+FROM Employees
+WHERE DATEDIFF('yyyy', BirthDate , DATE()) > 50;
+</pre>
+
+<h3>Exercise 4</h3>
+
+<p>Select the name, address, city, and region of employees that have placed orders to be delivered in Belgium. Write two versions of the query, with and without join.</p>
+
+<p>1st way</p>
+
+<pre>
+SELECT LastName, FirstName, [Address], City, IIF(Region, Region, ' - ') AS [Region]
+FROM Employees
+WHERE EmployeeID IN
+	(SELECT DISTINCT EmployeeID
+	 FROM Orders
+	 WHERE ShipCountry = 'Belgium');
+</pre>
+
+<p>2nd way</p>
+
+<pre>
+SELECT DISTINCT e.LastName, e.FirstName, e.[Address], e.City, IIF(e.Region, e.Region, ' - ') AS [Region]
+FROM Employees AS e
+INNER JOIN Orders AS o
+ON e.EmployeeID = o.EmployeeID
+WHERE o.ShipCountry = 'Belgium';
+</pre>
+
+<h3>Exercise 5</h3>
+
+<p>Select the employee name and the customer name for orders that are sent by the company ‘Speedy Express’ to customers who live in Brussels.</p>
+
+<p class="note">MS Access requires parentheses in the FROM clause for queries which include more than one join:</p>
+
+<pre>
+SELECT DISTINCT e.LastName, e.FirstName, c.ContactName
+FROM ((Employees e
+INNER JOIN Orders AS o ON o.EmployeeID = e.EmployeeID)
+INNER JOIN Customers AS c ON o.CustomerID = c.CustomerID)
+INNER JOIN Shippers AS s ON o.ShipVia = s.ShipperID
+WHERE s.CompanyName ='Speedy Express' AND c.City = 'Bruxelles';
+</pre>
+
+<h3>Exercise 6</h3>
+<p>Select the title and name of employees who have sold at least one of the products ‘Gravad Lax’ or ‘Mishi Kobe Niku’.</p>
+
+<pre>
+SELECT DISTINCT Employees.LastName, Employees.FirstName, Employees.Title
+FROM ((Employees
+INNER JOIN Orders ON Orders.EmployeeID = Employees.EmployeeID)
+INNER JOIN [Order Details] ON [Order Details].OrderID = Orders.OrderID)
+INNER JOIN Products ON [Order Details].ProductID = Products.ProductID
+WHERE Products.ProductName IN ('Gravad Lax', 'Mishi Kobe Niku');
+</pre>
+
+<h3>Exercise 7</h3>
+<p>Select the name and title of employees and the name and title of the person to which they refer (or null for the latter values if they don’t refer to another employee).</p>
+
+<pre>
+SELECT e.FirstName as [Employee Name], e.LastName as [Employee Lastname], b.LastName as [Reports To]
+FROM Employees AS e
+LEFT OUTER JOIN Employees AS b
+ON e.ReportsTo = b.EmployeeID
+</pre>
+
+<h3>Exercise 8</h3>
+<p>Select the customer name, the product name and the supplier name for customers who live in London and suppliers whose name is ‘Pavlova, Ltd.’ or ‘Karkki Oy’.</p>
+
+<pre>
+SELECT DISTINCT c.ContactName AS [Customer], p.ProductName AS [Product], s.ContactName AS [Supplier]
+FROM (((Customers AS c
+INNER JOIN Orders AS o ON o.CustomerID = c.CustomerID)
+INNER JOIN [Order Details] AS od ON od.OrderID = o.OrderID)
+INNER JOIN Products AS p ON p.ProductID = od.ProductID)
+INNER JOIN Suppliers AS s ON s.SupplierID = p.SupplierID
+WHERE c.City = 'London' AND s.CompanyName IN ('Pavlova, Ltd.', 'Karkki Oy');
+</pre>
+
+<h3>Exercise 9</h3>
+<p>Select the name of products that were bought or sold by people who live in London.</p>
+
+<pre>
+SELECT DISTINCT p.ProductName
+FROM (((Products p
+INNER JOIN [Order Details] od ON od.ProductID = p.ProductID)
+INNER JOIN Orders o ON o.OrderID = od.OrderID)
+INNER JOIN Employees e ON e.EmployeeID = o.EmployeeID)
+INNER JOIN Customers c ON c.CustomerID = o.CustomerID
+WHERE c.City = 'London' OR e.City = 'London';
+</pre>
+
+<h3>Exercise 10</h3>
+<p>Select the names of employees who are strictly older than: (a) any employee who lives in London. (b) all employees who live in London.</p>
+
+<p>(a):</p>
+
+<pre>
+SELECT LastName, FirstName
+FROM Employees
+WHERE BirthDate < ANY (SELECT BirthDate FROM Employees WHERE City = 'London');
+</pre>
+
+<p>(b):</p>
+
+<pre>
+SELECT LastName, FirstName
+FROM Employees
+WHERE BirthDate < ALL (SELECT BirthDate FROM Employees WHERE City = 'London');
+</pre>
+
+<h3>Exercise 11</h3>
+<p>Select the name of employees who work longer than any employee of London.</p>
+
+<pre>
+SELECT LastName, FirstName
+FROM Employees
+WHERE HireDate < ALL (SELECT HireDate FROM Employees WHERE City = 'London');
+</pre>
+
+<h3>Exercise 12</h3>
+<p>Select the name of employees and the city where they live for employees who have sold to customers in the same city.</p>
+
+<pre>
+SELECT DISTINCT e.LastName, e.FirstName, e.City
+FROM (Employees e
+INNER JOIN Orders o ON o.EmployeeID = e.EmployeeID)
+INNER JOIN Customers c ON c.CustomerID = o.CustomerID
+WHERE e.City = c.City;
+</pre>
+
+<p>EXTRA: Select the name of employees and the city where they live if any customer lives in the same city</p>
+
+<p class="note">In SQL Server we can do this:</p>
+
+<pre>
+SELECT DISTINCT CONCAT(e.LastName, ' ', e.FirstName) AS Employee, e.City
+FROM Employees e
+JOIN Customers c ON e.City = c.City
+</pre>
+
+<p class="note">But in Access we use & instead of CONCAT:</p>
+
+<pre>
+SELECT DISTINCT e.LastName & ' ' & e.FirstName AS Employee, e.City
+FROM Employees e
+INNER JOIN Customers c ON e.City = c.City
+</pre>
+
+<h3>Exercise 13</h3>
+<p>Select the name of customers who have not purchased any product.</p>
+
+<p>1st way</p>
+
+<pre>
+SELECT DISTINCT ContactName
+FROM Customers
+WHERE CustomerID NOT IN (SELECT DISTINCT CustomerID FROM Orders);
+</pre>
+
+<p>2nd way</p>
+
+<pre>
+SELECT DISTINCT Customers.ContactName
+FROM Customers
+LEFT JOIN Orders ON Orders.CustomerID = Customers.CustomerID
+WHERE Orders.OrderID IS NULL
+</pre>
+
+<h3>Exercise 14</h3>
+<p>Select the name of customers who bought only products with price less than 50.</p>
+
+<p>1st way</p>
+
+<pre>
+SELECT DISTINCT Customers.ContactName
+FROM ((Customers
+INNER JOIN Orders ON Orders.CustomerID = Customers.CustomerID)
+INNER JOIN [Order Details] ON [Order Details].OrderID = Orders.OrderID)
+INNER JOIN Products ON Products.ProductID = [Order Details].ProductID
+GROUP BY Customers.ContactName
+HAVING MAX(Products.UnitPrice) < 50;
+</pre>
+
+<p>2nd way</p>
+
+<pre>
+SELECT ContactName
+FROM Customers
+WHERE CustomerID NOT IN
+	(SELECT DISTINCT Customers.CustomerID
+	FROM ((Customers
+	INNER JOIN Orders ON Orders.CustomerID = Customers.CustomerID)
+	INNER JOIN [Order Details] ON [Order Details].OrderID = Orders.OrderID)
+	INNER JOIN Products ON Products.ProductID = [Order Details].ProductID
+	WHERE Products.UnitPrice >= 50)
+AND CustomerID IN (SELECT DISTINCT CustomerID FROM Orders);
+</pre>
+
+<h3>Exercise 15</h3>
+<p>Select the name of the products sold by all employees.</p>
+
+<p class="note">This was a trial in MS Access as you can't do: COUNT(DISTINCT o.EmployeeID)</p>
+
+<p class="note">In SQL Server we can do this:</p>
+<pre>
+SELECT p.ProductName
+FROM Products AS p
+JOIN [Order Details] AS od ON p.ProductID = od.ProductID
+JOIN Orders AS o ON od.OrderID = o.OrderID
+GROUP BY p.ProductName
+HAVING COUNT(DISTINCT o.EmployeeID) = (SELECT COUNT(*) FROM Employees)
+</pre>
+
+<p class="note">But in MS Access we have to do this:</p>
+
+<pre>
+SELECT ProductName, COUNT(EmployeeID) AS CountOfEmployeeID
+FROM (
+    SELECT p.ProductName, o.EmployeeID
+    FROM (Products AS p
+    INNER JOIN [Order Details] AS od ON p.ProductID = od.ProductID)
+    INNER JOIN Orders AS o ON od.OrderID = o.OrderID
+    GROUP BY p.ProductName, o.EmployeeID
+) AS DistinctEmployeesPerProduct
+GROUP BY ProductName
+HAVING COUNT(EmployeeID) = (SELECT COUNT(*) FROM Employees)
+</pre>
+
+<p class="note">See <a href="https://stackoverflow.com/questions/14530755/select-distinct-in-access-syntax-error" target="_blank">stack overflow</a> for more details.</p>
+
+<h3>Exercise 16</h3>
+<p>Select the average price of products by category.</p>
+
+<pre>
+SELECT CategoryID, AVG(UnitPrice) AS [Average Price]
+FROM Products
+GROUP BY CategoryID
+</pre>
+
+<h3>Exercise 17</h3>
+<p>Give the name of the categories and the average price of products in each category.</p>
+
+<p class="note">In SQL Server we can order by the alias:</p>
+
+<pre>
+SELECT c.CategoryName, AVG(p.UnitPrice) AS [Average Price]
+FROM Categories c
+JOIN Products p ON p.CategoryID = c.CategoryID
+GROUP BY c.CategoryName
+ORDER BY [Average Price];
+</pre>
+
+<p class="note">But in MS Access we have to do this:</p>
+
+<pre>
+SELECT c.CategoryName, AVG(p.UnitPrice) AS [Average Price]
+FROM Categories c
+INNER JOIN Products p ON p.CategoryID = c.CategoryID
+GROUP BY c.CategoryName
+ORDER BY AVG(p.UnitPrice);
+</pre>
+
+<h3>Exercise 18</h3>
+<p>Select the identifier and the name of the companies that provide more than 3 products.</p>
+
+<pre>
+SELECT s.SupplierID, s.CompanyName
+FROM Suppliers s
+INNER JOIN Products p ON p.SupplierID = s.SupplierID
+GROUP BY s.SupplierID, s.CompanyName
+HAVING COUNT(p.ProductID) > 3;
+</pre>
+
+<h3>Exercise 19</h3>
+<p>Select the identifier, name, and number of orders of employees, ordered by the employee identifier.</p>
+
+<pre>
+SELECT e.EmployeeID, e.LastName, e.FirstName, COUNT(o.OrderID) AS [Orders]
+FROM Employees e
+LEFT JOIN Orders o ON o.EmployeeID = e.EmployeeID
+GROUP BY e.EmployeeID, e.LastName, e.FirstName
+ORDER BY e.EmployeeID;
+</pre>
+
+<h3>Exercise 20</h3>
+<p>For each employee give the identifier, name, and the number of distinct products sold, ordered by the employee identifier.</p>
+
+<p class="note">Same problem here with the COUNT(DISTINCT ...), in SQL Server:</p>
+<pre>
+SELECT e.EmployeeID, e.LastName, e.FirstName, COUNT(DISTINCT od.ProductID) AS [Products Sold]
+FROM Employees e
+LEFT JOIN Orders o ON o.EmployeeID = e.EmployeeID
+LEFT JOIN [Order Details] od ON od.OrderID = o.OrderID
+GROUP BY e.EmployeeID, e.LastName, e.FirstName
+ORDER BY e.EmployeeID;
+</pre>
+
+<p class="note">But in MS Access:</p>
+
+<pre>
+SELECT e.EmployeeID, e.LastName, e.FirstName, COUNT(p.ProductID) AS [Products Sold]
+FROM Employees e
+LEFT JOIN (
+    SELECT o.EmployeeID, od.ProductID
+    FROM Orders o
+    LEFT JOIN [Order Details] od ON od.OrderID = o.OrderID
+    GROUP BY o.EmployeeID, od.ProductID
+) AS p ON e.EmployeeID = p.EmployeeID
+GROUP BY e.EmployeeID, e.LastName, e.FirstName
+ORDER BY e.EmployeeID;
+</pre>
+
+<h3>Exercise 21</h3>
+<p>Select the identifier, name, and total sales of employees, ordered by the employee identifier.</p>
+
+<pre>
+SELECT e.EmployeeID, e.LastName, e.FirstName, COUNT(od.Quantity) AS [Total Sales]
+FROM (Employees e
+LEFT JOIN Orders o ON o.EmployeeID = e.EmployeeID)
+LEFT JOIN [Order Details] od ON od.OrderID = o.OrderID
+GROUP BY e.EmployeeID, e.LastName, e.FirstName
+ORDER BY e.EmployeeID;
+</pre>
+
+<h3>Exercise 22</h3>
+<p>Select the identifier, name, and total sales of employees, ordered by the employee identifier</p>
+<p>for employees who have sold more than 70 different products.</p>
+
+<p class="note">In SQL Server only (todo - MS Access gave me a headache, probably need two queries):</p>
+
+<pre>
+SELECT e.EmployeeID, e.LastName, e.FirstName, COUNT(od.Quantity) AS [Total Sales]
+FROM Employees e
+LEFT JOIN Orders o ON o.EmployeeID = e.EmployeeID
+LEFT JOIN [Order Details] od ON od.OrderID = o.OrderID
+GROUP BY e.EmployeeID, e.LastName, e.FirstName
+HAVING COUNT(DISTINCT od.ProductID) > 70
+ORDER BY e.EmployeeID;
+</pre>
+
+<h3>Exercise 23</h3>
+<p>Select the names of employees who sell the products of more than 7 suppliers.</p>
+
+<p class="note">In SQL Server:</p>
+
+<pre>
+SELECT e.LastName, e.FirstName
+FROM Employees e
+LEFT JOIN Orders o ON o.EmployeeID = e.EmployeeID
+LEFT JOIN [Order Details] od ON od.OrderID = o.OrderID
+LEFT JOIN Products p ON p.ProductID = od.ProductID
+GROUP BY e.LastName, e.FirstName
+HAVING COUNT(DISTINCT p.SupplierID) > 7;
+</pre>
+
+<p class="note">In MS Access we can do this:</p>
+
+<pre>
+SELECT e.LastName, e.FirstName
+FROM ((Employees e
+INNER JOIN Orders o ON e.EmployeeID = o.EmployeeID)
+INNER JOIN [Order Details] od ON od.OrderID = o.OrderID)
+INNER JOIN Products p ON p.ProductID = od.ProductID
+WHERE e.EmployeeID IN (
+    SELECT DISTINCT o.EmployeeID
+    FROM (Orders o
+    INNER JOIN [Order Details] od ON od.OrderID = o.OrderID)
+    INNER JOIN Products p ON p.ProductID = od.ProductID
+    GROUP BY o.EmployeeID, p.SupplierID
+    HAVING COUNT(p.SupplierID) > 7
+)
+GROUP BY e.LastName, e.FirstName;
+</pre>

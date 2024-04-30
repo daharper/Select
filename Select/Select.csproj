@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EB6DD71E-5E48-469E-BC1C-B1B116F8FBF0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Select</RootNamespace>
+    <AssemblyName>Select</AssemblyName>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Messaging\NewWebMessage.cs" />
+    <Compile Include="Messaging\NewQueryMessage.cs" />
+    <Compile Include="Models\Bookmark.cs" />
+    <Compile Include="Models\Project.cs" />
+    <Compile Include="Presentation\Utils\DarkSqlStyler.cs" />
+    <Compile Include="Presentation\Utils\DataGridViews.cs" />
+    <Compile Include="Rtti\Bean.cs" />
+    <Compile Include="Rtti\BeanAttribute.cs" />
+    <Compile Include="Rtti\Context.cs" />
+    <Compile Include="Rtti\Lifetime.cs" />
+    <Compile Include="Rtti\Locator.cs" />
+    <Compile Include="Rtti\ServiceAttribute.cs" />
+    <Compile Include="Messaging\AppMessageBus.cs" />
+    <Compile Include="Presentation\Dialogs\OkCancelDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Dialogs\OkCancelDialog.Designer.cs">
+      <DependentUpon>OkCancelDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Dialogs\TextPromptDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Dialogs\TextPromptDialog.Designer.cs">
+      <DependentUpon>TextPromptDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Messaging\ArchiveFileMessage.cs" />
+    <Compile Include="Messaging\CloseProjectMessage.cs" />
+    <Compile Include="Messaging\OpenDocumentMessage.cs" />
+    <Compile Include="Messaging\OpenProjectMessage.cs" />
+    <Compile Include="Messaging\ResizePageMessage.cs" />
+    <Compile Include="Messaging\ShowUrlMessage.cs" />
+    <Compile Include="Messaging\ShutdownMessage.cs" />
+    <Compile Include="Messaging\StartupMessage.cs" />
+    <Compile Include="Rtti\XmlUtils.cs" />
+    <Compile Include="Presentation\Views\BrowserView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Views\BrowserView.Designer.cs">
+      <DependentUpon>BrowserView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\QueryView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Views\QueryView.Designer.cs">
+      <DependentUpon>QueryView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\View.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Presentation\Views\View.Designer.cs">
+      <DependentUpon>View.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Presentation\Utils\MenuColorTable.cs" />
+    <Compile Include="Presentation\Utils\ToolStripRender.cs" />
+    <Compile Include="Presentation\Utils\WindowThemer.cs" />
+    <Compile Include="Presentation\Utils\ControlExtensions.cs" />
+    <Compile Include="Services\SqlService.cs" />
+    <None Include="Resources\Images\icons8-web-16.png" />
+    <EmbeddedResource Include="Presentation\Dialogs\OkCancelDialog.resx">
+      <DependentUpon>OkCancelDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Dialogs\TextPromptDialog.resx">
+      <DependentUpon>TextPromptDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentation\Views\BrowserView.resx">
+      <DependentUpon>BrowserView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Presentation\Views\QueryView.resx">
+      <DependentUpon>QueryView.cs</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="Files\Resources\Join Types 1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Resources\Join Types 2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Resources\qa1.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Resources\qa2.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Resources\SQLNotes.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Resources\SQLServerNotes.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Resources\QueryingExercisesPart1.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Resources\QueryingExercisesPart2.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="cef.redist.x64">
+      <Version>120.2.7</Version>
+    </PackageReference>
+    <PackageReference Include="cef.redist.x86">
+      <Version>120.2.7</Version>
+    </PackageReference>
+    <PackageReference Include="CefSharp.Common">
+      <Version>123.0.60</Version>
+    </PackageReference>
+    <PackageReference Include="CefSharp.WinForms">
+      <Version>123.0.60</Version>
+    </PackageReference>
+    <PackageReference Include="DockPanelSuite">
+      <Version>3.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="DockPanelSuite.ThemeVS2015">
+      <Version>3.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="EasyScintilla">
+      <Version>1.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="PolySharp">
+      <Version>1.14.1</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.Collections.Immutable">
+      <Version>8.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.IO.Compression.ZipFile">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.Serialization.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\DbSchema.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\DbSchema2.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Help\Left_Join.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Northwind.MDB">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\Images\new_copy_16px.png" />
+    <None Include="Resources\Images\zoom_out_16px.png" />
+    <None Include="Resources\Images\zoom_in_16px.png" />
+    <None Include="Resources\Images\expand_16px.png" />
+    <None Include="Resources\Images\resize_horizontal_16px.png" />
+    <None Include="Resources\Images\flash_on_16px.png" />
+    <None Include="Resources\Images\icons8-table-16.png" />
+    <None Include="Resources\Images\icons8-database-16.png" />
+    <None Include="Resources\Images\MapToFolder.png" />
+    <None Include="Resources\Images\icons8-backup-16.png" />
+    <None Include="Resources\Images\search_more_16px.png" />
+    <None Include="Resources\Images\search_16px.png" />
+    <None Include="Resources\Images\word_wrap_16px.png" />
+    <None Include="Resources\Images\star_filled_16px.png" />
+    <None Include="Resources\Images\star_full.png" />
+    <None Include="Resources\Images\star_empty.png" />
+    <None Include="Resources\Images\Remove.png" />
+    <None Include="Resources\Images\plus_math_16px.png" />
+    <None Include="Resources\Images\icons8-css-48.png" />
+    <None Include="Resources\Images\icons8-html-48.png" />
+    <None Include="Resources\Images\icons8-html-32.png" />
+    <None Include="Resources\Images\icons8-css-32.png" />
+    <None Include="Resources\Images\cssfile.png" />
+    <None Include="Resources\Images\save_16px.png" />
+    <None Include="Resources\Images\opened_folder_16px.png" />
+    <None Include="Resources\Images\nav_plain_green.png" />
+    <None Include="Resources\Images\nav_plain_red.png" />
+    <None Include="Resources\Images\nav_right_green.png" />
+    <None Include="Resources\Images\nav_left_green.png" />
+    <None Include="Resources\Images\restartDebugger_dark.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
