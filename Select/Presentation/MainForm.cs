@@ -100,8 +100,7 @@ namespace Select.Presentation
                 PersistSessionCookies = true,
                 PersistUserPreferences = true,
             };
-            
-            
+                        
             Cef.Initialize(settings);
         }
 
