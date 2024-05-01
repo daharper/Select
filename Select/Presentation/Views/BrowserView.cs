@@ -197,9 +197,7 @@ public partial class BrowserView : View
     #region message handlers
 
     private void OnOpenProject(OpenProjectMessage obj) => LoadBookmarks();
-
     private void OnShowUrl(ShowUrlMessage msg) => LoadUrl(msg.Url);
-
     private void OnResizePage(ResizePageMessage msg) => InitializeToolStripLayout();
 
     private void OnStartup(StartupMessage msg)
