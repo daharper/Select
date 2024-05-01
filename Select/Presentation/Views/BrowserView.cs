@@ -43,10 +43,11 @@ public partial class BrowserView : View
     #region event handlers
 
     private void GoButtonClick(object sender, EventArgs e) => LoadUrl(urlTextBox.Text);
-
     private void BackButtonClick(object sender, EventArgs e) => _browser.Back();
-
     private void ForwardButtonClick(object sender, EventArgs e) => _browser.Forward();
+    private void SchemaButton_Click(object sender, EventArgs e) => LoadUrl(Project.SchemaPath);
+    private void ShowTablesButton_Click(object sender, EventArgs e) => LoadUrl(Project.Schema2Path);
+    private void SearchButton_Click(object sender, EventArgs e) => LoadUrl(GoogleUrl);
 
     private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
     {
@@ -55,15 +56,6 @@ public partial class BrowserView : View
             LoadUrl(urlTextBox.Text);
         }
     }
-
-    private void SchemaButton_Click(object sender, EventArgs e)
-        => LoadUrl(Project.SchemaPath);
-
-    private void ShowTablesButton_Click(object sender, EventArgs e)
-        => LoadUrl(Project.Schema2Path);
-
-    private void SearchButton_Click(object sender, EventArgs e)
-        => LoadUrl(GoogleUrl);
 
     private void btnBookmarks_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
     {
