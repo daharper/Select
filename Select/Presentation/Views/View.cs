@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Drawing;
 using Select.Messaging;
 using Select.Models;
 using Select.Rtti;
 
 namespace Select.Presentation.Views
 {
+    /// <summary>
+    /// Base class for all views.
+    /// </summary>
     public partial class View : WeifenLuo.WinFormsUI.Docking.DockContent
     {
         public View()
         {
             InitializeComponent();
-
             HideOnClose = true;
         }
-
-        protected Color OriginalBackColor { get; } = Color.FromArgb(26, 26, 26);
         
         protected Project Project => Context.Get<Project>();
 

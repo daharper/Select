@@ -15,11 +15,19 @@ public partial class QueryView : View
 {
     private static int _instanceCount;
 
+    // table intellisense for Northwind database
     private static readonly string Tables =
         "Categories Customers Employees OrderDetails Orders Products Shippers Suppliers";
-    
+
+    // some more intellisense data
     private static readonly string Keywords =
-        "Address BirthDate Categories CategoryID CategoryName City CompanyName ContactName ContactTitle Country CustomerID Customers Description Discontinued Discount EmployeeId Employees Extension Fax FirstName Freight HireDate HomePage HomePhone LastName Notes OrderDate OrderDetails OrderId Orders Phone Photo Picture PostalCode ProductID ProductName Products Quantity QuantityPerUnit Region ReorderLevelHomePage ReportsTo RequiredDate ShipAddress ShipCity ShipCountry ShipName ShippedDate ShipperID Shippers ShipPostalCode ShipRegion ShipVia SupplierID Suppliers Title TitleOfCourtesy UnitPrice UnitsInStock UnitsOnOrder";
+        "Address BirthDate Categories CategoryID CategoryName City CompanyName ContactName " +
+        "ContactTitle Country CustomerID Customers Description Discontinued Discount EmployeeId " +
+        "Employees Extension Fax FirstName Freight HireDate HomePage HomePhone LastName Notes OrderDate " +
+        "OrderDetails OrderId Orders Phone Photo Picture PostalCode ProductID ProductName Products " +
+        "Quantity QuantityPerUnit Region ReorderLevelHomePage ReportsTo RequiredDate ShipAddress " +
+        "ShipCity ShipCountry ShipName ShippedDate ShipperID Shippers ShipPostalCode ShipRegion " +
+        "ShipVia SupplierID Suppliers Title TitleOfCourtesy UnitPrice UnitsInStock UnitsOnOrder";
     
     private readonly SqlService _sqlService;
     
@@ -59,8 +67,7 @@ public partial class QueryView : View
 
     #region event handlers
 
-    private void RunButton_Click(object sender, EventArgs e)
-        => Run();
+    private void RunButton_Click(object sender, EventArgs e) => Run();
 
     private void ResultsGrid_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
     {
@@ -91,17 +98,16 @@ public partial class QueryView : View
         if (ResultsGrid.AutoSizeRowsMode == DataGridViewAutoSizeRowsMode.None)
         {
             ResultsGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            return;
         }
-        else
-        {
-            var mode = ResultsGrid.AutoSizeColumnsMode;
-            
-            Run();
+        
+        var mode = ResultsGrid.AutoSizeColumnsMode;
+        
+        Run();
 
-            if (mode != ResultsGrid.AutoSizeColumnsMode)
-            {
-                ResultsGrid.AutoSizeColumnsMode = mode;
-            }
+        if (mode != ResultsGrid.AutoSizeColumnsMode)
+        {
+            ResultsGrid.AutoSizeColumnsMode = mode;
         }
     }
 
@@ -118,6 +124,7 @@ public partial class QueryView : View
     {
         if (e.KeyCode == Keys.F5)
         {
+            // run query
             e.SuppressKeyPress = true;
             Run();
             return;
@@ -128,14 +135,16 @@ public partial class QueryView : View
             var wordStartPos = Editor.WordStartPosition(Editor.CurrentPosition, true);
             var lenEntered = Editor.CurrentPosition - wordStartPos;
 
-            if (e.Modifiers.HasFlag(Keys.Alt))  //e.KeyCode == Keys.T)
+            if (e.Modifiers.HasFlag(Keys.Alt))
             {
+                // show table intellisense
                 Editor.AutoCShow(lenEntered, Tables);
                 e.SuppressKeyPress = true;
             }
 
             if (e.KeyCode == Keys.Space)
             {
+                // show keyword intellisense
                 Editor.AutoCShow(lenEntered, Keywords);
                 e.SuppressKeyPress = true;
             }
@@ -149,24 +158,17 @@ public partial class QueryView : View
     private void InitializeView()
     {
         var id = Interlocked.Increment(ref _instanceCount);
-
         Text = $"Query {id}";
 
         ResultsGrid.SetDoubleBuffering(true);
 
-        var styler = new DarkSqlStyler()
-        {
-            ShowLineNumbers = false
-        };
-
-        Editor.Styler = styler;
-
-        for (var i = 0; i < 5; i++) Editor.ZoomIn();
-
+        Editor.Styler = new DarkSqlStyler(); ;
         Editor.IndentWidth = 2;
         Editor.TabWidth = 2;
         Editor.WrapMode = WrapMode.Word;
         Editor.EdgeColumn = 80;
+
+        for (var i = 0; i < 5; i++) Editor.ZoomIn();
     }
 
     private void InitializeTheme()

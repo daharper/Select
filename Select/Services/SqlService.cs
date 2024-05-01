@@ -41,7 +41,7 @@ public class SqlService
     {
         sql = sql.Trim();
 
-        /* make sure we're only dealing with SELECT statements */
+        /* make sure we're only dealing with SELECT statements - todo change in future */
         
         var s = sql.ToLowerInvariant();
         

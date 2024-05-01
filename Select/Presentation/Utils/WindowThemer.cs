@@ -19,10 +19,9 @@ public static class WindowThemer
 
     public static bool SetDarkModeByForce(IntPtr handle)
     {
-        var attribute = DwmwaUseImmersiveDarkMode;
-
         var enabled = 1;
-        return DwmSetWindowAttribute(handle, attribute, ref enabled, sizeof(int)) == 0;
+        
+        return DwmSetWindowAttribute(handle, DwmwaUseImmersiveDarkMode, ref enabled, sizeof(int)) == 0;
     }
 
     public static bool SetDarkMode(IntPtr handle)
@@ -44,8 +43,6 @@ public static class WindowThemer
     }
 
     private static bool IsWindows10OrGreater(int build = -1)
-    {
-        return Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= build;
-    }
+        => Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= build;
 }
 

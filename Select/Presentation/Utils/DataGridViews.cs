@@ -5,8 +5,14 @@ using System.Windows.Forms;
 
 namespace Select.Presentation.Utils;
 
+/// <summary>
+/// Useful extensions for DataGridViews.
+/// </summary>
 public static class DataGridViews
 {
+    /// <summary>
+    /// Set double buffering on the target grid.
+    /// </summary>
     public static void SetDoubleBuffering(this DataGridView targetGrid, bool value)
     {
         var type = targetGrid.GetType();
@@ -14,7 +20,10 @@ public static class DataGridViews
 
         pi.SetValue(targetGrid, value, null);
     }
-    
+
+    /// <summary>
+    /// Resize the columns of the target grid to fit the data quickly.
+    /// </summary>
     public static void FastAutoSizeColumns(this DataGridView targetGrid)
     {
         var table = ((DataView)targetGrid.DataSource).Table;

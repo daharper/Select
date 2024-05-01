@@ -42,14 +42,11 @@ public partial class BrowserView : View
 
     #region event handlers
 
-    private void GoButtonClick(object sender, EventArgs e)
-        => LoadUrl(urlTextBox.Text);
+    private void GoButtonClick(object sender, EventArgs e) => LoadUrl(urlTextBox.Text);
 
-    private void BackButtonClick(object sender, EventArgs e)
-        => _browser.Back();
+    private void BackButtonClick(object sender, EventArgs e) => _browser.Back();
 
-    private void ForwardButtonClick(object sender, EventArgs e)
-        => _browser.Forward();
+    private void ForwardButtonClick(object sender, EventArgs e) => _browser.Forward();
 
     private void UrlTextBoxKeyUp(object sender, KeyEventArgs e)
     {
@@ -207,14 +204,11 @@ public partial class BrowserView : View
 
     #region message handlers
 
-    private void OnOpenProject(OpenProjectMessage obj)
-        => LoadBookmarks();
+    private void OnOpenProject(OpenProjectMessage obj) => LoadBookmarks();
 
-    private void OnShowUrl(ShowUrlMessage msg)
-        => LoadUrl(msg.Url);
+    private void OnShowUrl(ShowUrlMessage msg) => LoadUrl(msg.Url);
 
-    private void OnResizePage(ResizePageMessage msg)
-        => InitializeToolStripLayout();
+    private void OnResizePage(ResizePageMessage msg) => InitializeToolStripLayout();
 
     private void OnStartup(StartupMessage msg)
     {
@@ -246,7 +240,7 @@ public partial class BrowserView : View
     private void OnBrowserLoadError(object sender, LoadErrorEventArgs e)
     {
         const string error = "<html><body><h2>Failed to load URL {0} with error {1} ({2}).</h2></body></html>";
-
+        
         if (e.ErrorCode == CefErrorCode.Aborted) return;
 
         var msg = string.Format(error, e.FailedUrl, e.ErrorText, e.ErrorCode);
@@ -317,7 +311,6 @@ public partial class BrowserView : View
         panel1.Controls.Add(_browser);
 
         _browser.Dock = DockStyle.Fill;
-        
         _browser.IsBrowserInitializedChanged += OnIsBrowserInitializedChanged;
         _browser.LoadingStateChanged += OnLoadingStateChanged;
         _browser.TitleChanged += OnBrowserTitleChanged;
@@ -333,7 +326,6 @@ public partial class BrowserView : View
         ToolStripRender.Configure(tsWeb);
 
         _browser.BrowserSettings.BackgroundColor = Cef.ColorSetARGB(0, 100, 100, 100);
-
         _browser.BackColor = Color.FromArgb(100, 100, 100);
         urlTextBox.BackColor = Color.FromArgb(100, 100, 100);
     }

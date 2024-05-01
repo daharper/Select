@@ -8,9 +8,6 @@ namespace Select.Models;
 
 /// <summary>
 /// The project uses conventions to organize its files and folders.
-/// This simplifies the management of the project and the export process.
-/// It contains bookmarks and manifests, and persists to "project.xml".
-/// Lastly, it is capable of backing up the complete project to a zip file.
 /// </summary>
 public class Project
 {
@@ -19,8 +16,6 @@ public class Project
     [XmlIgnore] public string Filename { get; private set; } = "";
     
     [XmlIgnore] public string Folder { get; private set; } = "";
-
-    [XmlIgnore] public string ImagesPath { get; private set; } = "";
 
     [XmlIgnore] public string ResourcesPath { get; private set; } = "";
 
@@ -47,7 +42,6 @@ public class Project
         project.Name = name;
         project.Folder = folder;
         project.Filename = filename;
-        project.ImagesPath = Path.Combine(folder, "Images");
         project.ResourcesPath = Path.Combine(folder, "Resources");
         project.SchemaPath = "file://" + Path.Combine(folder, "DbSchema.html").Replace('\\', '/');
         project.Schema2Path = "file://" + Path.Combine(folder, "DbSchema2.html").Replace('\\', '/');

@@ -14,14 +14,10 @@ public class ToolStripRender : ToolStripProfessionalRenderer
     private static readonly Color BackgroundColor = Color.FromArgb(31, 31, 31);
     private static readonly Pen Pen = new(Color.FromArgb(121, 121, 121));
 
-    public ToolStripRender()
-    {
-        RoundedEdges = false;
-    }
+    public ToolStripRender() => RoundedEdges = false;
 
     protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
     {
-        // base.OnRenderToolStripBorder(e);
     }
 
     protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)

@@ -56,13 +56,11 @@ namespace Select.Presentation
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            AppMessageBus.Send<CloseProjectMessage>();
-            
             // let processes finish gracefully
+            AppMessageBus.Send<CloseProjectMessage>();
             Thread.Sleep(1000);
             
             AppMessageBus.Send<ShutdownMessage>();
-
             Project.Save();
         }
 
@@ -70,12 +68,11 @@ namespace Select.Presentation
         {
             panel2.Width = Width / 2;
             
-            DockView<QueryView>(RightPanel); 
-            
             var browser = new BrowserView(ViewType.General);
-            DockView(browser, MainPanel);
-            
             var browser2 = new BrowserView(ViewType.Resource);
+
+            DockView<QueryView>(RightPanel);
+            DockView(browser, MainPanel);
             DockView(browser2, MainPanel);
             
             browser.Activate();
@@ -90,10 +87,7 @@ namespace Select.Presentation
 
         #region initializers
 
-        private void InitializeTheme()
-        {
-            WindowThemer.SetDarkModeByForce(Handle);
-        }
+        private void InitializeTheme() => WindowThemer.SetDarkModeByForce(Handle);
 
         private void InitializeCef()
         {

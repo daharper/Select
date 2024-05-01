@@ -4,6 +4,9 @@ using ScintillaNET;
 
 namespace Select.Presentation.Utils;
 
+/// <summary>
+/// Custom SQL styler for dark theme.
+/// </summary>
 public class DarkSqlStyler : SqlStyler
 {
     private Color _backupCaretForeColor;
@@ -48,7 +51,6 @@ public class DarkSqlStyler : SqlStyler
 
         scintilla.SetFoldMarginHighlightColor(true, backColor);
         scintilla.SetFoldMarginColor(true, backColor);
-
         scintilla.SetSelectionBackColor(true, Color.FromArgb(38, 79, 120));
     }
 

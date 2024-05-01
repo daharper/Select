@@ -3,10 +3,7 @@
 namespace Select.Presentation.Dialogs;
 public partial class TextPromptDialog : Form
 {
-    public TextPromptDialog()
-    {
-        InitializeComponent();
-    }
+    public TextPromptDialog() => InitializeComponent();
 
     public static (bool ok, string value) ShowDialog(string caption, string text, string value = "")
     {
@@ -19,8 +16,6 @@ public partial class TextPromptDialog : Form
         var result = dialog.ShowDialog();
         var prompt = dialog.txtPrompt.Text.Trim();
 
-        return result == DialogResult.OK && prompt.Length > 0
-            ? (true, prompt)
-            : (false, "");
+        return result == DialogResult.OK && prompt.Length > 0 ? (true, prompt) : (false, "");
     }
 }
