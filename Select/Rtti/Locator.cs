@@ -63,19 +63,4 @@ public class Locator
             }
         }
     }
-
-    /// <summary>
-    /// Finds the first occurrence of a type with the specified fully qualified name
-    /// in the specified assemblies.
-    /// </summary>
-    //public Result<Type> FindType(string fullname)
-    //{
-    //    foreach (var assembly in _assemblies)
-    //    {
-    //        var type = assembly.GetType(fullname);
-    //        if (type != null) return Result.Ok(type);
-    //    }
-
-    //    return Result.Fail<Type>($"Unable to locate type: {fullname}");
-    //}
 }
