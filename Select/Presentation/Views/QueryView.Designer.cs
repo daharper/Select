@@ -28,16 +28,17 @@ partial class QueryView
     /// </summary>
     private void InitializeComponent()
     {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueryView));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.Editor = new EasyScintilla.SimpleEditor();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.tsQuery = new System.Windows.Forms.ToolStrip();
             this.NewWebButton = new System.Windows.Forms.ToolStripButton();
             this.NewQueryButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ClearButton = new System.Windows.Forms.ToolStripButton();
             this.RunButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FillButton = new System.Windows.Forms.ToolStripButton();
@@ -47,18 +48,18 @@ partial class QueryView
             this.ZoomOutButton = new System.Windows.Forms.ToolStripButton();
             this.ResultsGrid = new System.Windows.Forms.DataGridView();
             this.CountLabel = new System.Windows.Forms.Label();
-            this.ClearButton = new System.Windows.Forms.ToolStripButton();
             this.tsQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ResultsGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // Editor
             // 
+            this.Editor.AutoCIgnoreCase = true;
             this.Editor.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.Editor.IndentationGuides = ScintillaNET.IndentView.LookBoth;
-            this.Editor.Location = new System.Drawing.Point(0, 263);
+            this.Editor.Location = new System.Drawing.Point(0, 463);
             this.Editor.Name = "Editor";
-            this.Editor.Size = new System.Drawing.Size(800, 500);
+            this.Editor.Size = new System.Drawing.Size(800, 300);
             this.Editor.Styler = null;
             this.Editor.TabIndex = 0;
             this.Editor.Text = "SELECT * FROM Customers;";
@@ -67,7 +68,7 @@ partial class QueryView
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splitter1.Location = new System.Drawing.Point(0, 235);
+            this.splitter1.Location = new System.Drawing.Point(0, 435);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(800, 3);
             this.splitter1.TabIndex = 1;
@@ -88,7 +89,7 @@ partial class QueryView
             this.toolStripSeparator2,
             this.ZoomInButton,
             this.ZoomOutButton});
-            this.tsQuery.Location = new System.Drawing.Point(0, 238);
+            this.tsQuery.Location = new System.Drawing.Point(0, 438);
             this.tsQuery.Name = "tsQuery";
             this.tsQuery.Size = new System.Drawing.Size(800, 25);
             this.tsQuery.TabIndex = 2;
@@ -119,6 +120,17 @@ partial class QueryView
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
+            this.ClearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearButton.Text = "ClearConsole";
+            this.ClearButton.ToolTipText = "Clear Console (F4)";
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // RunButton
             // 
@@ -188,39 +200,39 @@ partial class QueryView
             this.ResultsGrid.AllowUserToDeleteRows = false;
             this.ResultsGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.ResultsGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ResultsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ResultsGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.ResultsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.WhiteSmoke;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.ResultsGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.WhiteSmoke;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.ResultsGrid.DefaultCellStyle = dataGridViewCellStyle8;
             this.ResultsGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultsGrid.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
             this.ResultsGrid.Location = new System.Drawing.Point(0, 0);
             this.ResultsGrid.Name = "ResultsGrid";
             this.ResultsGrid.ReadOnly = true;
             this.ResultsGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.ResultsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(41)))), ((int)(((byte)(41)))));
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.ResultsGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.ResultsGrid.ShowEditingIcon = false;
-            this.ResultsGrid.Size = new System.Drawing.Size(800, 212);
+            this.ResultsGrid.Size = new System.Drawing.Size(800, 412);
             this.ResultsGrid.TabIndex = 3;
             this.ResultsGrid.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.ResultsGrid_RowPostPaint);
             // 
@@ -229,22 +241,11 @@ partial class QueryView
             this.CountLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
             this.CountLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.CountLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.CountLabel.Location = new System.Drawing.Point(0, 212);
+            this.CountLabel.Location = new System.Drawing.Point(0, 412);
             this.CountLabel.Name = "CountLabel";
             this.CountLabel.Size = new System.Drawing.Size(800, 23);
             this.CountLabel.TabIndex = 4;
             this.CountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // ClearButton
-            // 
-            this.ClearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
-            this.ClearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(23, 22);
-            this.ClearButton.Text = "ClearConsole";
-            this.ClearButton.ToolTipText = "Clear Console (F4)";
-            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // QueryView
             // 

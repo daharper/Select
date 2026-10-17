@@ -65,8 +65,8 @@ namespace Select.Presentation
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            panel2.Width = Width / 2;
-            
+            RightHostPanel.Width = Width / 2 - 100;
+
             var browser = new BrowserView(ViewType.General);
             var browser2 = new BrowserView(ViewType.Resource);
 

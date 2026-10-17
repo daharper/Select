@@ -238,6 +238,7 @@ public partial class QueryView : View
         for (var i = 0; i < 5; i++) Editor.ZoomIn();
 
         Editor.AutoCIgnoreCase = true;
+        Editor.AutoCSeparator = '|';
         Editor.CharAdded += Editor_CharAdded;
     }
 

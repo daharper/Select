@@ -27,6 +27,8 @@ public class SqlService
 
     private readonly List<string> _columns;
 
+    private readonly List<string> _views;
+
     private readonly List<string> _keywords =
     [
         "ALL", "AND", "ANY", "AS", "ASC", "BETWEEN", "BY", "DESC", "DISTINCT", "DISTINCTROW", "EXISTS",
@@ -54,6 +56,13 @@ public class SqlService
             .OrderBy(n => n)
             .ToList()!;
 
+        _views = schema.Rows.Cast<DataRow>()
+            .Where(r => r["TABLE_TYPE"]?.ToString() == "VIEW")
+            .Select(r => r["TABLE_NAME"]?.ToString())
+            .Where(n => !string.IsNullOrEmpty(n))
+            .OrderBy(n => n)
+            .ToList()!;
+
         schema = _connection.GetSchema("Columns");
 
         _columns = schema.Rows.Cast<DataRow>()
@@ -63,11 +72,11 @@ public class SqlService
             .OrderBy(n => n)!
             .ToList()!;
 
-        TableSuggestions = string.Join(" ", _tables.Concat(_keywords).Distinct().OrderBy(s => s));
+        TableSuggestions = string.Join("|", _tables.Concat(_views).Concat(_keywords).Distinct().OrderBy(s => s));
 
-        ColumnSuggestions = string.Join(" ", _columns.Concat(_keywords).Distinct().OrderBy(s => s));
+        ColumnSuggestions = string.Join("|", _columns.Concat(_keywords).Distinct().OrderBy(s => s));
 
-        AllSuggestions = string.Join(" ", _keywords.Concat(_tables).Concat(_columns).Distinct().OrderBy(s => s));
+        AllSuggestions = string.Join("|", _keywords.Concat(_tables).Concat(_views).Concat(_columns).Distinct().OrderBy(s => s));
     }
 
     public string TableSuggestions { get; init; }
@@ -75,7 +84,6 @@ public class SqlService
     public string ColumnSuggestions { get; init; }
 
     public string AllSuggestions { get; init; }
-
 
     /// <summary>
     /// Gets the table names from the database.
@@ -90,11 +98,16 @@ public class SqlService
         => _columns;
 
     /// <summary>
+    /// Gets a list of view names from the database.
+    /// </summary>
+    public IEnumerable<string> Views()
+        => _views;
+
+    /// <summary>
     /// Gets a list of SQL keywords.
     /// </summary>
     public IEnumerable<string> Keywords()
         => _keywords;
-
 
     /// <summary>
     /// Executes the specified SQL query and displays the result in the specified <see cref="DataGridView"/>.
