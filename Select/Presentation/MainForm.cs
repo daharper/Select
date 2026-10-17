@@ -19,7 +19,7 @@ namespace Select.Presentation
     {
         #region private
 
-        private Project Project => Context.Get<Project>();
+        private static Project Project => Context.Get<Project>();
 
         #endregion
 
@@ -56,7 +56,6 @@ namespace Select.Presentation
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // let processes finish gracefully
             AppMessageBus.Send<CloseProjectMessage>();
             Thread.Sleep(1000);
             
@@ -87,7 +86,8 @@ namespace Select.Presentation
 
         #region initializers
 
-        private void InitializeTheme() => WindowThemer.SetDarkModeByForce(Handle);
+        private void InitializeTheme() 
+            => WindowThemer.SetDarkModeByForce(Handle);
 
         private void InitializeCef()
         {
@@ -98,8 +98,8 @@ namespace Select.Presentation
                 IgnoreCertificateErrors = true,
                 Locale = "en-US",
                 PersistSessionCookies = true,
-                PersistUserPreferences = true,
             };
+            settings.CefCommandLineArgs.Add("persist-user-preferences");
                         
             Cef.Initialize(settings);
         }

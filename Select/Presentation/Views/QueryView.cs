@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -11,26 +12,43 @@ using Select.Services;
 
 namespace Select.Presentation.Views;
 
+internal enum QueryContext
+{
+    All,
+    Tables,
+    Columns
+}
+
 public partial class QueryView : View
 {
     private static int _instanceCount;
 
-    // table intellisense for Northwind database
-    private static readonly string Tables =
-        "Categories Customers Employees OrderDetails Orders Products Shippers Suppliers";
-
-    // some more intellisense data
-    private static readonly string Keywords =
-        "Address BirthDate Categories CategoryID CategoryName City CompanyName ContactName " +
-        "ContactTitle Country CustomerID Customers Description Discontinued Discount EmployeeId " +
-        "Employees Extension Fax FirstName Freight HireDate HomePage HomePhone LastName Notes OrderDate " +
-        "OrderDetails OrderId Orders Phone Photo Picture PostalCode ProductID ProductName Products " +
-        "Quantity QuantityPerUnit Region ReorderLevelHomePage ReportsTo RequiredDate ShipAddress " +
-        "ShipCity ShipCountry ShipName ShippedDate ShipperID Shippers ShipPostalCode ShipRegion " +
-        "ShipVia SupplierID Suppliers Title TitleOfCourtesy UnitPrice UnitsInStock UnitsOnOrder";
-    
     private readonly SqlService _sqlService;
     
+    private readonly char[] _separators = [' ', '\r', '\n', '\t', ',', '(', ')', '=', '.', '[', ']'];
+
+    private readonly Dictionary<string, bool> _tableContext = new(StringComparer.InvariantCultureIgnoreCase)
+        {
+            ["FROM"] = true,
+            ["JOIN"] = true,
+            ["INTO"] = true
+        };
+
+    private readonly Dictionary<string, bool> _columnContext = new(StringComparer.InvariantCultureIgnoreCase)
+    {
+        ["SELECT"] = true,
+        ["WHERE"] = true,
+        ["ON"] = true,
+        ["HAVING"] = true,
+        ["BY"] = true,
+        ["AND"] = true,
+        ["OR"] = true,
+        ["DISTINCT"] = true,
+        ["DISTINCTROW"] = true,
+        ["TRANSFORM"] = true,
+        ["PIVOT"] = true
+    };
+
     public QueryView()
     {
         InitializeComponent();
@@ -51,9 +69,13 @@ public partial class QueryView : View
     
     private void Run()
     {
+        var text = Editor.Text;
+
+        if (string.IsNullOrWhiteSpace(text)) return;
+
         try
         {
-            _sqlService.Execute(Editor.Text, ResultsGrid);
+            _sqlService.Execute(text, ResultsGrid);
         }
         catch (Exception exception)
         {
@@ -63,11 +85,15 @@ public partial class QueryView : View
         CountLabel.Text = $"{ResultsGrid.RowCount} items";
     }
 
+    private void ClearConsole() => Editor.Text = "";
+
     #endregion
 
     #region event handlers
 
     private void RunButton_Click(object sender, EventArgs e) => Run();
+
+    private void ClearButton_Click(object sender, EventArgs e) => ClearConsole();
 
     private void ResultsGrid_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
     {
@@ -120,34 +146,75 @@ public partial class QueryView : View
     private void NewQueryButton_Click(object sender, EventArgs e)
         => Send<NewQueryMessage>();
 
+    private void Editor_CharAdded(object sender, CharAddedEventArgs e)
+    {
+        var currentChar = (char)e.Char;
+
+        if (char.IsLetterOrDigit(currentChar) || 
+            currentChar == '_' || 
+            currentChar == ' ' || 
+            currentChar == '.' || 
+            currentChar == '[' || 
+            currentChar == '(' || 
+            currentChar == ',')
+        {
+            ShowIntelliSense();
+        }
+    }
+
+    private void ShowIntelliSense()
+    {
+        var wordStartPos = Editor.WordStartPosition(Editor.CurrentPosition, true);
+        var lenEntered = Editor.CurrentPosition - wordStartPos;
+        var context = GetQueryContext(Editor.GetTextRange(0, Editor.CurrentPosition));
+        var suggestions = GetSuggestionsForContext(context);
+
+        if (!string.IsNullOrEmpty(suggestions))
+        {
+            Editor.AutoCShow(lenEntered, suggestions);
+        }
+    }
+
+    private QueryContext GetQueryContext(string queryText)
+    {
+        var tokens = queryText.Split(_separators, StringSplitOptions.RemoveEmptyEntries);
+
+        if (tokens.Length == 0) return QueryContext.All;
+
+        for (var i = tokens.Length - 1; i >= 0; i--)
+        {
+            var token = tokens[i];
+
+            if (_tableContext.ContainsKey(token))
+                return QueryContext.Tables;
+
+            if (_columnContext.ContainsKey(token))
+                return QueryContext.Columns;
+        }
+
+        return QueryContext.All;
+    }
+
+    private string GetSuggestionsForContext(QueryContext context)
+        => context switch
+        {
+            QueryContext.Tables => _sqlService.TableSuggestions,
+            QueryContext.Columns => _sqlService.ColumnSuggestions,
+            _ => _sqlService.AllSuggestions
+        };
+
+
     private void Editor_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.KeyCode == Keys.F5)
         {
-            // run query
             e.SuppressKeyPress = true;
             Run();
-            return;
         }
-
-        if (e.Modifiers.HasFlag(Keys.Control))
+        else if (e.KeyCode == Keys.F4)
         {
-            var wordStartPos = Editor.WordStartPosition(Editor.CurrentPosition, true);
-            var lenEntered = Editor.CurrentPosition - wordStartPos;
-
-            if (e.Modifiers.HasFlag(Keys.Alt))
-            {
-                // show table intellisense
-                Editor.AutoCShow(lenEntered, Tables);
-                e.SuppressKeyPress = true;
-            }
-
-            if (e.KeyCode == Keys.Space)
-            {
-                // show keyword intellisense
-                Editor.AutoCShow(lenEntered, Keywords);
-                e.SuppressKeyPress = true;
-            }
+            e.SuppressKeyPress = true;
+            ClearConsole();
         }
     }
 
@@ -169,6 +236,9 @@ public partial class QueryView : View
         Editor.EdgeColumn = 80;
 
         for (var i = 0; i < 5; i++) Editor.ZoomIn();
+
+        Editor.AutoCIgnoreCase = true;
+        Editor.CharAdded += Editor_CharAdded;
     }
 
     private void InitializeTheme()

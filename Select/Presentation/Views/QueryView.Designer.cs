@@ -35,18 +35,19 @@ partial class QueryView
             this.Editor = new EasyScintilla.SimpleEditor();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.tsQuery = new System.Windows.Forms.ToolStrip();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ResultsGrid = new System.Windows.Forms.DataGridView();
-            this.CountLabel = new System.Windows.Forms.Label();
             this.NewWebButton = new System.Windows.Forms.ToolStripButton();
             this.NewQueryButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.RunButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FillButton = new System.Windows.Forms.ToolStripButton();
             this.AutoSizeButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ZoomInButton = new System.Windows.Forms.ToolStripButton();
             this.ZoomOutButton = new System.Windows.Forms.ToolStripButton();
+            this.ResultsGrid = new System.Windows.Forms.DataGridView();
+            this.CountLabel = new System.Windows.Forms.Label();
+            this.ClearButton = new System.Windows.Forms.ToolStripButton();
             this.tsQuery.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ResultsGrid)).BeginInit();
             this.SuspendLayout();
@@ -79,6 +80,7 @@ partial class QueryView
             this.NewWebButton,
             this.NewQueryButton,
             this.toolStripSeparator3,
+            this.ClearButton,
             this.RunButton,
             this.toolStripSeparator1,
             this.FillButton,
@@ -92,20 +94,93 @@ partial class QueryView
             this.tsQuery.TabIndex = 2;
             this.tsQuery.Text = "toolStrip1";
             // 
+            // NewWebButton
+            // 
+            this.NewWebButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NewWebButton.Image = global::Select.Properties.Resources.icons8_web_16;
+            this.NewWebButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NewWebButton.Name = "NewWebButton";
+            this.NewWebButton.Size = new System.Drawing.Size(23, 22);
+            this.NewWebButton.Text = "toolStripButton1";
+            this.NewWebButton.ToolTipText = "New Web Helper";
+            this.NewWebButton.Click += new System.EventHandler(this.NewWebButton_Click);
+            // 
+            // NewQueryButton
+            // 
+            this.NewQueryButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.NewQueryButton.Image = global::Select.Properties.Resources.new_copy_16px;
+            this.NewQueryButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.NewQueryButton.Name = "NewQueryButton";
+            this.NewQueryButton.Size = new System.Drawing.Size(23, 22);
+            this.NewQueryButton.ToolTipText = "New Query Window";
+            this.NewQueryButton.Click += new System.EventHandler(this.NewQueryButton_Click);
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // RunButton
+            // 
+            this.RunButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.RunButton.Image = global::Select.Properties.Resources.flash_on_16px;
+            this.RunButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.RunButton.Name = "RunButton";
+            this.RunButton.Size = new System.Drawing.Size(23, 22);
+            this.RunButton.ToolTipText = "Run the SQL (F5)";
+            this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
+            // FillButton
+            // 
+            this.FillButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.FillButton.Image = global::Select.Properties.Resources.resize_horizontal_16px;
+            this.FillButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.FillButton.Name = "FillButton";
+            this.FillButton.Size = new System.Drawing.Size(23, 22);
+            this.FillButton.Text = "toolStripButton1";
+            this.FillButton.ToolTipText = "Fit cells to width";
+            this.FillButton.Click += new System.EventHandler(this.FillButton_Click);
+            // 
+            // AutoSizeButton
+            // 
+            this.AutoSizeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AutoSizeButton.Image = global::Select.Properties.Resources.expand_16px;
+            this.AutoSizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AutoSizeButton.Name = "AutoSizeButton";
+            this.AutoSizeButton.Size = new System.Drawing.Size(23, 22);
+            this.AutoSizeButton.Text = "toolStripButton2";
+            this.AutoSizeButton.ToolTipText = "Auto size columns";
+            this.AutoSizeButton.Click += new System.EventHandler(this.AutoSizeButton_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // ZoomInButton
+            // 
+            this.ZoomInButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ZoomInButton.Image = ((System.Drawing.Image)(resources.GetObject("ZoomInButton.Image")));
+            this.ZoomInButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ZoomInButton.Name = "ZoomInButton";
+            this.ZoomInButton.Size = new System.Drawing.Size(23, 22);
+            this.ZoomInButton.ToolTipText = "Zoom In";
+            this.ZoomInButton.Click += new System.EventHandler(this.ZoomInButton_Click);
+            // 
+            // ZoomOutButton
+            // 
+            this.ZoomOutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ZoomOutButton.Image = ((System.Drawing.Image)(resources.GetObject("ZoomOutButton.Image")));
+            this.ZoomOutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ZoomOutButton.Name = "ZoomOutButton";
+            this.ZoomOutButton.Size = new System.Drawing.Size(23, 22);
+            this.ZoomOutButton.ToolTipText = "Zoom Out";
+            this.ZoomOutButton.Click += new System.EventHandler(this.ZoomOutButton_Click);
             // 
             // ResultsGrid
             // 
@@ -160,78 +235,16 @@ partial class QueryView
             this.CountLabel.TabIndex = 4;
             this.CountLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // NewWebButton
+            // ClearButton
             // 
-            this.NewWebButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NewWebButton.Image = global::Select.Properties.Resources.icons8_web_16;
-            this.NewWebButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.NewWebButton.Name = "NewWebButton";
-            this.NewWebButton.Size = new System.Drawing.Size(23, 22);
-            this.NewWebButton.Text = "toolStripButton1";
-            this.NewWebButton.ToolTipText = "New Web Helper";
-            this.NewWebButton.Click += new System.EventHandler(this.NewWebButton_Click);
-            // 
-            // NewQueryButton
-            // 
-            this.NewQueryButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NewQueryButton.Image = global::Select.Properties.Resources.new_copy_16px;
-            this.NewQueryButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.NewQueryButton.Name = "NewQueryButton";
-            this.NewQueryButton.Size = new System.Drawing.Size(23, 22);
-            this.NewQueryButton.ToolTipText = "New Query Window";
-            this.NewQueryButton.Click += new System.EventHandler(this.NewQueryButton_Click);
-            // 
-            // RunButton
-            // 
-            this.RunButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.RunButton.Image = global::Select.Properties.Resources.flash_on_16px;
-            this.RunButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.RunButton.Name = "RunButton";
-            this.RunButton.Size = new System.Drawing.Size(23, 22);
-            this.RunButton.ToolTipText = "Run the SQL";
-            this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
-            // 
-            // FillButton
-            // 
-            this.FillButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.FillButton.Image = global::Select.Properties.Resources.resize_horizontal_16px;
-            this.FillButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.FillButton.Name = "FillButton";
-            this.FillButton.Size = new System.Drawing.Size(23, 22);
-            this.FillButton.Text = "toolStripButton1";
-            this.FillButton.ToolTipText = "Fit cells to width";
-            this.FillButton.Click += new System.EventHandler(this.FillButton_Click);
-            // 
-            // AutoSizeButton
-            // 
-            this.AutoSizeButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AutoSizeButton.Image = global::Select.Properties.Resources.expand_16px;
-            this.AutoSizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.AutoSizeButton.Name = "AutoSizeButton";
-            this.AutoSizeButton.Size = new System.Drawing.Size(23, 22);
-            this.AutoSizeButton.Text = "toolStripButton2";
-            this.AutoSizeButton.ToolTipText = "Auto size columns";
-            this.AutoSizeButton.Click += new System.EventHandler(this.AutoSizeButton_Click);
-            // 
-            // ZoomInButton
-            // 
-            this.ZoomInButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ZoomInButton.Image = ((System.Drawing.Image)(resources.GetObject("ZoomInButton.Image")));
-            this.ZoomInButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ZoomInButton.Name = "ZoomInButton";
-            this.ZoomInButton.Size = new System.Drawing.Size(23, 22);
-            this.ZoomInButton.ToolTipText = "Zoom In";
-            this.ZoomInButton.Click += new System.EventHandler(this.ZoomInButton_Click);
-            // 
-            // ZoomOutButton
-            // 
-            this.ZoomOutButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ZoomOutButton.Image = ((System.Drawing.Image)(resources.GetObject("ZoomOutButton.Image")));
-            this.ZoomOutButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.ZoomOutButton.Name = "ZoomOutButton";
-            this.ZoomOutButton.Size = new System.Drawing.Size(23, 22);
-            this.ZoomOutButton.ToolTipText = "Zoom Out";
-            this.ZoomOutButton.Click += new System.EventHandler(this.ZoomOutButton_Click);
+            this.ClearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.ClearButton.Image = ((System.Drawing.Image)(resources.GetObject("ClearButton.Image")));
+            this.ClearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(23, 22);
+            this.ClearButton.Text = "ClearConsole";
+            this.ClearButton.ToolTipText = "Clear Console (F4)";
+            this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
             // QueryView
             // 
@@ -270,4 +283,5 @@ partial class QueryView
     private System.Windows.Forms.ToolStripButton NewQueryButton;
     private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     private System.Windows.Forms.ToolStripButton NewWebButton;
+    private System.Windows.Forms.ToolStripButton ClearButton;
 }

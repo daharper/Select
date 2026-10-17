@@ -33,9 +33,7 @@ public class Project
     {
         var filename = Path.Combine(folder, "project.xml");
 
-        var project = File.Exists(filename)
-            ? XmlUtils.Load<Project>(filename)
-            : new Project();
+        var project = File.Exists(filename) ? XmlUtils.Load<Project>(filename) : new Project();
 
         var name = folder.Split('\\').Last();
 

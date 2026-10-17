@@ -52,8 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Messaging\AppMessage.cs" />
-    <Compile Include="Messaging\NewWebMessage.cs" />
-    <Compile Include="Messaging\NewQueryMessage.cs" />
     <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Presentation\Utils\DarkSqlStyler.cs" />
@@ -83,12 +81,6 @@
     <Compile Include="Presentation\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Messaging\CloseProjectMessage.cs" />
-    <Compile Include="Messaging\OpenProjectMessage.cs" />
-    <Compile Include="Messaging\ResizePageMessage.cs" />
-    <Compile Include="Messaging\ShowUrlMessage.cs" />
-    <Compile Include="Messaging\ShutdownMessage.cs" />
-    <Compile Include="Messaging\StartupMessage.cs" />
     <Compile Include="Rtti\XmlUtils.cs" />
     <Compile Include="Presentation\Views\BrowserView.cs">
       <SubType>Form</SubType>
@@ -184,17 +176,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="cef.redist.x64">
-      <Version>120.2.7</Version>
-    </PackageReference>
-    <PackageReference Include="cef.redist.x86">
-      <Version>120.2.7</Version>
-    </PackageReference>
     <PackageReference Include="CefSharp.Common">
-      <Version>123.0.60</Version>
+      <Version>148.0.90</Version>
     </PackageReference>
     <PackageReference Include="CefSharp.WinForms">
-      <Version>123.0.60</Version>
+      <Version>148.0.90</Version>
     </PackageReference>
     <PackageReference Include="DockPanelSuite">
       <Version>3.1.0</Version>
